@@ -24,9 +24,51 @@ routerTransactions.post('/', async (request, response) => {
 })
 
 routerTransactions.get('/', async (request, response) => {
-  const transaction = await knex('transactions').select('*')
+  const transactions = await knex('transactions').select('*')
 
-  return response.status(200).json(transaction)
+  const newTransactionsFormat = transactions.map(
+    ({ amount, ...transaction }) => ({
+      ...transaction,
+      amount: Number(amount),
+    }),
+  )
+
+  return response.status(200).json({ newTransactionsFormat })
+})
+
+routerTransactions.get('/:id', async (request, response) => {
+  const getTransactionsParamSchema = z.object({
+    id: z.string().uuid(),
+  })
+
+  const { id } = getTransactionsParamSchema.parse(request.params)
+
+  const transaction = await knex('transactions').where('id', id).first()
+
+  return response.status(200).json({ transaction })
+})
+
+routerTransactions.get('/summary/balance', async (request, response) => {
+  const summary = await knex('transactions').select('amount')
+
+  const summaryBalance = summary.reduce(
+    ({ totalIncome, totalExpense, totalBalance }, operation) => {
+      if (operation.amount > 0) {
+        totalIncome += Number(operation.amount)
+      } else {
+        totalExpense += Number(operation.amount)
+      }
+      totalBalance = totalIncome + totalExpense
+      return {
+        totalIncome,
+        totalExpense,
+        totalBalance,
+      }
+    },
+    { totalIncome: 0, totalExpense: 0, totalBalance: 0 },
+  )
+
+  return response.status(200).json({ summaryBalance })
 })
 
 export { routerTransactions }
