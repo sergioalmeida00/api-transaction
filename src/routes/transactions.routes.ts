@@ -2,6 +2,7 @@ import { Router } from 'express'
 import { z } from 'zod'
 import { knex } from '../database'
 import { randomUUID } from 'node:crypto'
+import { getCookies, setCookies } from '../utils/cookies'
 
 const routerTransactions = Router()
 
@@ -12,12 +13,19 @@ routerTransactions.post('/', async (request, response) => {
     type: z.enum(['credit', 'debit']),
   })
 
+  let sessionId = getCookies(request.headers.cookie)
+
+  if (!sessionId) {
+    sessionId = setCookies('sessionId', response)
+  }
+
   const { title, amount, type } = createTransactionsSchema.parse(request.body)
 
   await knex('transactions').insert({
     id: randomUUID(),
     title,
     amount: type === 'credit' ? amount : amount * -1,
+    session_id: sessionId,
   })
 
   return response.status(201).send()
