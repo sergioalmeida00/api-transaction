@@ -14,10 +14,8 @@ const envSchema = z.object({
   DATABASE_USER: z.string(),
   DATABASE_PASS: z.string(),
   DATABASE_DB: z.string(),
-  PORT_PROJECT: z.coerce.number().default(3001),
-  NODE_ENV: z
-    .enum(['development', 'test', 'production'])
-    .default('development'),
+  PORT: z.coerce.number().default(3001),
+  NODE_ENV: z.enum(['development', 'test', 'production']).default('production'),
 })
 
 const _env = envSchema.safeParse(process.env)
