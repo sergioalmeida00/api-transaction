@@ -66,4 +66,35 @@ describe('Transactions routes', () => {
     expect(getTransaction.body.transaction).toHaveProperty('amount')
     expect(getTransaction.body.transaction).toHaveProperty('session_id')
   })
+
+  it('should be able to get the summary', async () => {
+    const createTransactionResponse = await request(app)
+      .post('/transactions')
+      .send({
+        title: 'Credit Transaction',
+        amount: 3000,
+        type: 'credit',
+      })
+
+    const cookies = createTransactionResponse.get('set-cookie')
+
+    await request(app).post('/transactions').set('Cookie', cookies).send({
+      title: 'Debit Transaction',
+      amount: 700,
+      type: 'debit',
+    })
+
+    const summaryResponse = await request(app)
+      .get('/transactions/summary/balance')
+      .set('Cookie', cookies)
+      .expect(200)
+
+    expect(summaryResponse.body.summaryBalance).toEqual(
+      expect.objectContaining({
+        totalIncome: 3000,
+        totalExpense: -700,
+        totalBalance: 2300,
+      }),
+    )
+  })
 })
