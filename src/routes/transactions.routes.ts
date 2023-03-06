@@ -37,6 +37,7 @@ routerTransactions.get('/', middlewareCookies, async (request, response) => {
   const transactions = await knex('transactions')
     .select('*')
     .where('session_id', sessionId)
+    .orderBy('amount', 'desc')
 
   const newTransactionsFormat = transactions.map(
     ({ amount, ...transaction }) => ({
