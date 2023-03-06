@@ -4,6 +4,7 @@ import { knex } from '../database'
 import { randomUUID } from 'node:crypto'
 import { getCookies, setCookies } from '../utils/cookies'
 import { middlewareCookies } from '../middleware/middlewareCookies'
+import { getTotalWeeksInMonth } from '../utils/getTotalWeeksInMonth'
 
 const routerTransactions = Router()
 
@@ -74,21 +75,37 @@ routerTransactions.get(
       .select('amount')
       .where('session_id', sessionId)
 
+    const month = new Date().getMonth()
+    const year = new Date().getFullYear()
+
     const summaryBalance = summary.reduce(
-      ({ totalIncome, totalExpense, totalBalance }, operation) => {
+      (
+        { totalIncome, totalExpense, totalBalance, weekSummary, daySummary },
+        operation,
+      ) => {
         if (operation.amount > 0) {
           totalIncome += Number(operation.amount)
         } else {
           totalExpense += Number(operation.amount)
         }
         totalBalance = totalIncome + totalExpense
+        weekSummary = totalBalance / getTotalWeeksInMonth(month, year)
+        daySummary = weekSummary / 3
         return {
           totalIncome,
           totalExpense,
           totalBalance,
+          weekSummary,
+          daySummary,
         }
       },
-      { totalIncome: 0, totalExpense: 0, totalBalance: 0 },
+      {
+        totalIncome: 0,
+        totalExpense: 0,
+        totalBalance: 0,
+        weekSummary: 0,
+        daySummary: 0,
+      },
     )
 
     return response.status(200).json({ summaryBalance })
