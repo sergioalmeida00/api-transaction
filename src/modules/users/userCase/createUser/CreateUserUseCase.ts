@@ -18,6 +18,12 @@ export class CreateUserUseCase {
       throw new Error('E-mail already registered')
     }
 
+    const loginExists = await this.userRepository.findByLogin(login)
+
+    if (loginExists) {
+      throw new Error('Login already registered')
+    }
+
     await this.userRepository.create({ login, email, password: passwordHash })
   }
 }

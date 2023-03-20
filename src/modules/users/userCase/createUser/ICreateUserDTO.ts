@@ -5,6 +5,7 @@ interface ICreateUserDTO {
 }
 
 interface IOutPutUserDTO {
+  id?: string
   login: string
   email: string
   password: string

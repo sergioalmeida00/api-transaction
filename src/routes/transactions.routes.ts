@@ -1,7 +1,6 @@
 import { Router } from 'express'
 import { z } from 'zod'
 import { knex } from '../database'
-import { randomUUID } from 'node:crypto'
 import { getCookies, setCookies } from '../utils/cookies'
 import { middlewareCookies } from '../middleware/middlewareCookies'
 import { getTotalWeeksInMonth } from '../utils/getTotalWeeksInMonth'

@@ -19,4 +19,10 @@ export class KnexUserRepository implements IUserRepository {
 
     return resultFindByEmail
   }
+
+  async findByLogin(login: string): Promise<IOutPutUserDTO> {
+    const user = await knex('users').where({ login }).first()
+
+    return user
+  }
 }
