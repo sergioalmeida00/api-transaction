@@ -4,4 +4,10 @@ interface ICreateUserDTO {
   password: string
 }
 
-export { ICreateUserDTO }
+interface IOutPutUserDTO {
+  login: string
+  email: string
+  password: string
+}
+
+export { ICreateUserDTO, IOutPutUserDTO }
