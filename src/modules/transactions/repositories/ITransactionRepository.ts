@@ -2,6 +2,7 @@ import { ICreateTransactionDTO } from '../useCases/createTransactions/CreateTran
 
 interface ITransactionRepository {
   create(data: ICreateTransactionDTO): Promise<void>
+  findAllTransactions(): Promise<ICreateTransactionDTO[]>
 }
 
 export { ITransactionRepository }

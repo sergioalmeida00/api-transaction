@@ -6,9 +6,11 @@ import { getCookies, setCookies } from '../utils/cookies'
 import { middlewareCookies } from '../middleware/middlewareCookies'
 import { getTotalWeeksInMonth } from '../utils/getTotalWeeksInMonth'
 import { CreateTransactionsController } from '../modules/transactions/useCases/createTransactions/CreateTransactionsController'
+import { GetAllTransactionsController } from '../modules/transactions/useCases/getAllTransactions/GetAllTransactionsController'
 const routerTransactions = Router()
 
 const createTransactionsController = new CreateTransactionsController()
+const getAllTransactionsController = new GetAllTransactionsController()
 routerTransactions.post('/', createTransactionsController.handle)
 
 // routerTransactions.post('/', async (request, response) => {
@@ -36,22 +38,23 @@ routerTransactions.post('/', createTransactionsController.handle)
 //   return response.status(201).send()
 // })
 
-routerTransactions.get('/', middlewareCookies, async (request, response) => {
-  const sessionId = getCookies(request.headers.cookie)
-  const transactions = await knex('transactions')
-    .select('*')
-    .where('session_id', sessionId)
-    .orderBy('amount', 'desc')
+routerTransactions.get('/', getAllTransactionsController.handle)
+// routerTransactions.get('/', middlewareCookies, async (request, response) => {
+//   const sessionId = getCookies(request.headers.cookie)
+//   const transactions = await knex('transactions')
+//     .select('*')
+//     .where('session_id', sessionId)
+//     .orderBy('amount', 'desc')
 
-  const newTransactionsFormat = transactions.map(
-    ({ amount, ...transaction }) => ({
-      ...transaction,
-      amount: Number(amount),
-    }),
-  )
+//   const newTransactionsFormat = transactions.map(
+//     ({ amount, ...transaction }) => ({
+//       ...transaction,
+//       amount: Number(amount),
+//     }),
+//   )
 
-  return response.status(200).json({ newTransactionsFormat })
-})
+//   return response.status(200).json({ newTransactionsFormat })
+// })
 
 routerTransactions.get('/:id', middlewareCookies, async (request, response) => {
   const getTransactionsParamSchema = z.object({

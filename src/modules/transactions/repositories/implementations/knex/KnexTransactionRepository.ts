@@ -15,4 +15,12 @@ export class KnexTransactionRepository implements ITransactionRepository {
       amount,
     })
   }
+
+  async findAllTransactions(): Promise<ICreateTransactionDTO[]> {
+    const transactions = await knex('transactions')
+      .select('*')
+      .orderBy('amount', 'desc')
+
+    return transactions
+  }
 }
