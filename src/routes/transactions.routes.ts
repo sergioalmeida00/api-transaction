@@ -5,33 +5,35 @@ import { randomUUID } from 'node:crypto'
 import { getCookies, setCookies } from '../utils/cookies'
 import { middlewareCookies } from '../middleware/middlewareCookies'
 import { getTotalWeeksInMonth } from '../utils/getTotalWeeksInMonth'
-
+import { CreateTransactionsController } from '../modules/transactions/useCases/createTransactions/CreateTransactionsController'
 const routerTransactions = Router()
 
-routerTransactions.post('/', async (request, response) => {
-  const createTransactionsSchema = z.object({
-    title: z.string(),
-    amount: z.number(),
-    type: z.enum(['credit', 'debit']),
-  })
+const createTransactionsController = new CreateTransactionsController()
+routerTransactions.post('/', createTransactionsController.handle)
+// routerTransactions.post('/', async (request, response) => {
+//   const createTransactionsSchema = z.object({
+//     title: z.string(),
+//     amount: z.number(),
+//     type: z.enum(['credit', 'debit']),
+//   })
 
-  let sessionId = getCookies(request.headers.cookie)
+//   let sessionId = getCookies(request.headers.cookie)
 
-  if (!sessionId) {
-    sessionId = setCookies('sessionId', response)
-  }
+//   if (!sessionId) {
+//     sessionId = setCookies('sessionId', response)
+//   }
 
-  const { title, amount, type } = createTransactionsSchema.parse(request.body)
+//   const { title, amount, type } = createTransactionsSchema.parse(request.body)
 
-  await knex('transactions').insert({
-    id: randomUUID(),
-    title,
-    amount: type === 'credit' ? amount : amount * -1,
-    session_id: sessionId,
-  })
+//   await knex('transactions').insert({
+//     id: randomUUID(),
+//     title,
+//     amount: type === 'credit' ? amount : amount * -1,
+//     session_id: sessionId,
+//   })
 
-  return response.status(201).send()
-})
+//   return response.status(201).send()
+// })
 
 routerTransactions.get('/', middlewareCookies, async (request, response) => {
   const sessionId = getCookies(request.headers.cookie)
