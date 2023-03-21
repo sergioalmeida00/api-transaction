@@ -6,11 +6,18 @@ import { middlewareCookies } from '../middleware/middlewareCookies'
 import { getTotalWeeksInMonth } from '../utils/getTotalWeeksInMonth'
 import { CreateTransactionsController } from '../modules/transactions/useCases/createTransactions/CreateTransactionsController'
 import { GetAllTransactionsController } from '../modules/transactions/useCases/getAllTransactions/GetAllTransactionsController'
+import { ensureAuthentication } from '../middleware/ensureAuthentication'
+
 const routerTransactions = Router()
 
 const createTransactionsController = new CreateTransactionsController()
 const getAllTransactionsController = new GetAllTransactionsController()
-routerTransactions.post('/', createTransactionsController.handle)
+
+routerTransactions.post(
+  '/',
+  ensureAuthentication,
+  createTransactionsController.handle,
+)
 
 // routerTransactions.post('/', async (request, response) => {
 //   const createTransactionsSchema = z.object({
@@ -37,7 +44,11 @@ routerTransactions.post('/', createTransactionsController.handle)
 //   return response.status(201).send()
 // })
 
-routerTransactions.get('/', getAllTransactionsController.handle)
+routerTransactions.get(
+  '/',
+  ensureAuthentication,
+  getAllTransactionsController.handle,
+)
 // routerTransactions.get('/', middlewareCookies, async (request, response) => {
 //   const sessionId = getCookies(request.headers.cookie)
 //   const transactions = await knex('transactions')

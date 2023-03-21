@@ -5,18 +5,20 @@ import { CreateTransactionsUseCase } from './CreateTransactionsUseCase'
 
 export class CreateTransactionsController {
   async handle(request: Request, response: Response) {
+    const { id: userId } = request.user
     const createTransactionsSchema = z.object({
       title: z.string(),
       amount: z.number(),
       type: z.enum(['credit', 'debit']),
     })
+
     const createTransactionsUseCase = container.resolve(
       CreateTransactionsUseCase,
     )
 
     const { title, amount, type } = createTransactionsSchema.parse(request.body)
 
-    await createTransactionsUseCase.execute({ title, amount, type })
+    await createTransactionsUseCase.execute({ title, amount, type, userId })
 
     return response.sendStatus(201)
   }

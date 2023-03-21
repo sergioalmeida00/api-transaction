@@ -8,11 +8,13 @@ export class KnexTransactionRepository implements ITransactionRepository {
     amount,
     type,
     id,
+    userId,
   }: ICreateTransactionDTO): Promise<void> {
     await knex('transactions').insert({
       id,
       title,
       amount,
+      user_id: userId,
     })
   }
 
