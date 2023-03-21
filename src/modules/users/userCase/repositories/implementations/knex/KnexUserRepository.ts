@@ -25,4 +25,10 @@ export class KnexUserRepository implements IUserRepository {
 
     return user
   }
+
+  async findByIdUser(id: string): Promise<IOutPutUserDTO> {
+    const user = await knex('users').where({ id }).first()
+
+    return user
+  }
 }

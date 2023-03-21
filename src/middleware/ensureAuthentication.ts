@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import { verify } from 'jsonwebtoken'
+import { KnexUserRepository } from '../modules/users/userCase/repositories/implementations/knex/KnexUserRepository'
 
 interface IPayloadDTO {
   sub: string
@@ -22,6 +23,12 @@ export function ensureAuthentication(
       token,
       process.env.JWT_PASS ?? '',
     ) as IPayloadDTO
+
+    const verifyUserExists = new KnexUserRepository().findByIdUser(userId)
+
+    if (!verifyUserExists) {
+      throw new Error('User does not exist')
+    }
 
     request.user = {
       id: userId,
