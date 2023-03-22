@@ -6,12 +6,14 @@ import { middlewareCookies } from '../middleware/middlewareCookies'
 import { getTotalWeeksInMonth } from '../utils/getTotalWeeksInMonth'
 import { CreateTransactionsController } from '../modules/transactions/useCases/createTransactions/CreateTransactionsController'
 import { GetAllTransactionsController } from '../modules/transactions/useCases/getAllTransactions/GetAllTransactionsController'
+import { TransactionByIdController } from '../modules/transactions/useCases/transactionById/TransactionByIdController'
 import { ensureAuthentication } from '../middleware/ensureAuthentication'
 
 const routerTransactions = Router()
 
 const createTransactionsController = new CreateTransactionsController()
 const getAllTransactionsController = new GetAllTransactionsController()
+const transactionByIdController = new TransactionByIdController()
 
 routerTransactions.post(
   '/',
@@ -66,21 +68,26 @@ routerTransactions.get(
 //   return response.status(200).json({ newTransactionsFormat })
 // })
 
-routerTransactions.get('/:id', middlewareCookies, async (request, response) => {
-  const getTransactionsParamSchema = z.object({
-    id: z.string().uuid(),
-  })
+routerTransactions.get(
+  '/:id',
+  ensureAuthentication,
+  transactionByIdController.handle,
+)
+// routerTransactions.get('/:id', middlewareCookies, async (request, response) => {
+//   const getTransactionsParamSchema = z.object({
+//     id: z.string().uuid(),
+//   })
 
-  const sessionId = getCookies(request.headers.cookie)
+//   const sessionId = getCookies(request.headers.cookie)
 
-  const { id } = getTransactionsParamSchema.parse(request.params)
+//   const { id } = getTransactionsParamSchema.parse(request.params)
 
-  const transaction = await knex('transactions')
-    .where({ session_id: sessionId, id })
-    .first()
+//   const transaction = await knex('transactions')
+//     .where({ session_id: sessionId, id })
+//     .first()
 
-  return response.status(200).json({ transaction })
-})
+//   return response.status(200).json({ transaction })
+// })
 
 routerTransactions.get(
   '/summary/balance',

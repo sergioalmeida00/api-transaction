@@ -1,5 +1,6 @@
 import { knex } from '../../../../../database'
 import { ICreateTransactionDTO } from '../../../useCases/createTransactions/CreateTransactionsDTO'
+import { IInputTransactionByIdDTO } from '../../../useCases/transactionById/TransactionByIdDTO'
 import { ITransactionRepository } from '../../ITransactionRepository'
 
 export class KnexTransactionRepository implements ITransactionRepository {
@@ -24,5 +25,19 @@ export class KnexTransactionRepository implements ITransactionRepository {
       .orderBy('amount', 'desc')
 
     return transactions
+  }
+
+  async findByIdTransaction({
+    id,
+    userId,
+  }: IInputTransactionByIdDTO): Promise<ICreateTransactionDTO> {
+    const transaction = await knex('transactions')
+      .where({
+        user_id: userId,
+        id,
+      })
+      .first()
+
+    return transaction
   }
 }
