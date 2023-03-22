@@ -1,5 +1,6 @@
 import { knex } from '../../../../../database'
 import { ICreateTransactionDTO } from '../../../useCases/createTransactions/CreateTransactionsDTO'
+import { IOutputSummaryRepository } from '../../../useCases/summaryTransactions/summaryTransactionsDTO'
 import { IInputTransactionByIdDTO } from '../../../useCases/transactionById/TransactionByIdDTO'
 import { ITransactionRepository } from '../../ITransactionRepository'
 
@@ -39,5 +40,15 @@ export class KnexTransactionRepository implements ITransactionRepository {
       .first()
 
     return transaction
+  }
+
+  async summaryTransaction(
+    userId: string,
+  ): Promise<IOutputSummaryRepository[]> {
+    const summaryTransaction = await knex('transactions')
+      .select('amount')
+      .where({ user_id: userId })
+
+    return summaryTransaction
   }
 }
