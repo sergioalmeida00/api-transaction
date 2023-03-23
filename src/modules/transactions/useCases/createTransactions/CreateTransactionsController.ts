@@ -10,15 +10,24 @@ export class CreateTransactionsController {
       title: z.string(),
       amount: z.number(),
       type: z.enum(['credit', 'debit']),
+      categoryId: z.string().uuid(),
     })
 
     const createTransactionsUseCase = container.resolve(
       CreateTransactionsUseCase,
     )
 
-    const { title, amount, type } = createTransactionsSchema.parse(request.body)
+    const { title, amount, type, categoryId } = createTransactionsSchema.parse(
+      request.body,
+    )
 
-    await createTransactionsUseCase.execute({ title, amount, type, userId })
+    await createTransactionsUseCase.execute({
+      title,
+      amount,
+      type,
+      userId,
+      categoryId,
+    })
 
     return response.sendStatus(201)
   }

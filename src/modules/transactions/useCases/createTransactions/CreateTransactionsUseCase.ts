@@ -10,13 +10,20 @@ export class CreateTransactionsUseCase {
     private transactionRepository: ITransactionRepository,
   ) {}
 
-  async execute({ title, amount, type, userId }: ICreateTransactionDTO) {
+  async execute({
+    title,
+    amount,
+    type,
+    userId,
+    categoryId,
+  }: ICreateTransactionDTO) {
     await this.transactionRepository.create({
       id: randomUUID(),
       title,
       amount: type === 'credit' ? amount : amount * -1,
       type,
       userId,
+      categoryId,
     })
   }
 }
