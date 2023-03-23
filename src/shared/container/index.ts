@@ -4,6 +4,8 @@ import { IUserRepository } from '../../modules/users/userCase/repositories/IUser
 
 import { KnexTransactionRepository } from '../../modules/transactions/repositories/implementations/knex/KnexTransactionRepository'
 import { ITransactionRepository } from '../../modules/transactions/repositories/ITransactionRepository'
+import { ICategoryRepository } from '../../modules/category/repositories/ICategoryRepository'
+import { KnexCategoryRepository } from '../../modules/category/repositories/implementations/knex/KnexCategoryRepository'
 
 container.registerSingleton<IUserRepository>(
   'KnexUserRepository',
@@ -13,4 +15,9 @@ container.registerSingleton<IUserRepository>(
 container.registerSingleton<ITransactionRepository>(
   'KnexTransactionRepository',
   KnexTransactionRepository,
+)
+
+container.registerSingleton<ICategoryRepository>(
+  'KnexCategoryRepository',
+  KnexCategoryRepository,
 )
