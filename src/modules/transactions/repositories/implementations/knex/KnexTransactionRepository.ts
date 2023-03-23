@@ -1,6 +1,7 @@
 import { knex } from '../../../../../database'
 import { ICreateTransactionDTO } from '../../../useCases/createTransactions/CreateTransactionsDTO'
 import { IOutputSummaryRepository } from '../../../useCases/summaryTransactions/summaryTransactionsDTO'
+import { IOutputSummaryTypeCategoryDTO } from '../../../useCases/summaryTransactionTypeCategory/SummaryTypeCategoryDTO'
 import { IInputTransactionByIdDTO } from '../../../useCases/transactionById/TransactionByIdDTO'
 import { ITransactionRepository } from '../../ITransactionRepository'
 
@@ -52,5 +53,17 @@ export class KnexTransactionRepository implements ITransactionRepository {
       .where({ user_id: userId })
 
     return summaryTransaction
+  }
+
+  async summaryTransactionTypeCategory(
+    userId: string,
+  ): Promise<IOutputSummaryTypeCategoryDTO[]> {
+    const transactionsTypeCategory = await knex
+      .select('type', 'amount')
+      .from('transactions')
+      .innerJoin('category', 'transactions.category_id', 'category.id')
+      .where({ user_id: userId })
+
+    return transactionsTypeCategory
   }
 }
