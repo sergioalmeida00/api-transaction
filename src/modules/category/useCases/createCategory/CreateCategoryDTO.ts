@@ -1,6 +1,15 @@
 interface IInputCategory {
   description: string
-  type: 'investment' | 'necessity' | 'spending'
+  type:
+    | 'home'
+    | 'food'
+    | 'transport'
+    | 'health'
+    | 'income'
+    | 'investment'
+    | 'lounge'
+    | 'education'
+    | 'card'
 }
 
 export { IInputCategory }

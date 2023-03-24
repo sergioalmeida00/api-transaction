@@ -16,11 +16,13 @@ export class SummaryTransactionTypeCategoryUseCase {
     const summary = summaryTransactionTypeCategory.reduce(
       (accumulator, summary) => {
         const { type, amount } = summary
+
         if (accumulator[type]) {
           accumulator[type] += Number(amount)
         } else {
           accumulator[type] = Number(amount)
         }
+
         return accumulator
       },
       {} as IOutputSummaryTypeCategoryReduceDTO,

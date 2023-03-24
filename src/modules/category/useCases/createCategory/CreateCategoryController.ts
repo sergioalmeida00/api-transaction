@@ -7,7 +7,17 @@ export class CreateCategoryController {
   async handle(request: Request, response: Response) {
     const categorySchema = z.object({
       description: z.string().min(3),
-      type: z.enum(['investment', 'necessity', 'spending']),
+      type: z.enum([
+        'home',
+        'food',
+        'transport',
+        'health',
+        'income',
+        'investment',
+        'lounge',
+        'education',
+        'card',
+      ]),
     })
 
     const { description, type } = categorySchema.parse(request.body)
