@@ -9,7 +9,7 @@ export class SummaryTransactionTypeCategoryUseCase {
     private transactionRepository: ITransactionRepository,
   ) {}
 
-  async execute(userId: string) {
+  async execute(userId: string): Promise<IOutputSummaryTypeCategoryReduceDTO> {
     const summaryTransactionTypeCategory =
       await this.transactionRepository.summaryTransactionTypeCategory(userId)
 
@@ -27,6 +27,10 @@ export class SummaryTransactionTypeCategoryUseCase {
       },
       {} as IOutputSummaryTypeCategoryReduceDTO,
     )
-    return summary
+    const totalBalance: number = Object.values(summary).reduce(
+      (sum: number, amount: number) => sum + amount,
+      0,
+    )
+    return { ...summary, totalBalance }
   }
 }
