@@ -10,9 +10,14 @@ export class SummaryTransactionsUseCase {
   ) {}
 
   async execute(userId: string) {
-    const summary = await this.transactionRepository.summaryTransaction(userId)
+    const { weeksInMonth, startDateMont, endDateMontFormat } =
+      getTotalWeeksInMonth()
 
-    const amountOfWeek = getTotalWeeksInMonth()
+    const summary = await this.transactionRepository.summaryTransaction({
+      userId,
+      startDateMont,
+      endDateMontFormat,
+    })
 
     const summaryBalance = summary.reduce(
       (
@@ -25,7 +30,7 @@ export class SummaryTransactionsUseCase {
           totalExpense += Number(operation.amount)
         }
         totalBalance = totalIncome + totalExpense
-        weekSummary = totalBalance / amountOfWeek
+        weekSummary = totalBalance / weeksInMonth
         daySummary = weekSummary / Number(process.env.QUANTITY_OF_DAYS)
 
         return {

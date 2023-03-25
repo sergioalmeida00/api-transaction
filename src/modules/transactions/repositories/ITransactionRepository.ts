@@ -1,5 +1,8 @@
 import { ICreateTransactionDTO } from '../useCases/createTransactions/CreateTransactionsDTO'
-import { IOutputSummaryRepository } from '../useCases/summaryTransactions/summaryTransactionsDTO'
+import {
+  IInputSummaryTransactionsDTO,
+  IOutputSummaryRepository,
+} from '../useCases/summaryTransactions/summaryTransactionsDTO'
 import {
   IInputSummaryTypeCategoryDTO,
   IOutputSummaryTypeCategoryDTO,
@@ -8,12 +11,20 @@ import { IInputTransactionByIdDTO } from '../useCases/transactionById/Transactio
 
 interface ITransactionRepository {
   create(data: ICreateTransactionDTO): Promise<void>
+
   findAllTransactions(): Promise<ICreateTransactionDTO[]>
+
   findByIdTransaction({
     id,
     userId,
   }: IInputTransactionByIdDTO): Promise<ICreateTransactionDTO>
-  summaryTransaction(userId: string): Promise<IOutputSummaryRepository[]>
+
+  summaryTransaction({
+    userId,
+    startDateMont,
+    endDateMontFormat,
+  }: IInputSummaryTransactionsDTO): Promise<IOutputSummaryRepository[]>
+
   summaryTransactionTypeCategory({
     userId,
     startDate,

@@ -10,4 +10,14 @@ interface IOutputSummaryRepository {
   amount: number
 }
 
-export { ISummaryTransactionsDTO, IOutputSummaryRepository }
+interface IInputSummaryTransactionsDTO {
+  userId: string
+  startDateMont: string
+  endDateMontFormat: string
+}
+
+export {
+  ISummaryTransactionsDTO,
+  IOutputSummaryRepository,
+  IInputSummaryTransactionsDTO,
+}
