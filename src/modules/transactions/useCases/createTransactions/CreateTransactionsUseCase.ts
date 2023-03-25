@@ -16,6 +16,7 @@ export class CreateTransactionsUseCase {
     type,
     userId,
     categoryId,
+    releaseDate,
   }: ICreateTransactionDTO) {
     await this.transactionRepository.create({
       id: randomUUID(),
@@ -24,6 +25,7 @@ export class CreateTransactionsUseCase {
       type,
       userId,
       categoryId,
+      releaseDate,
     })
   }
 }

@@ -1,7 +1,10 @@
 import { knex } from '../../../../../database'
 import { ICreateTransactionDTO } from '../../../useCases/createTransactions/CreateTransactionsDTO'
 import { IOutputSummaryRepository } from '../../../useCases/summaryTransactions/summaryTransactionsDTO'
-import { IOutputSummaryTypeCategoryDTO } from '../../../useCases/summaryTransactionTypeCategory/SummaryTypeCategoryDTO'
+import {
+  IInputSummaryTypeCategoryDTO,
+  IOutputSummaryTypeCategoryDTO,
+} from '../../../useCases/summaryTransactionTypeCategory/SummaryTypeCategoryDTO'
 import { IInputTransactionByIdDTO } from '../../../useCases/transactionById/TransactionByIdDTO'
 import { ITransactionRepository } from '../../ITransactionRepository'
 
@@ -13,6 +16,7 @@ export class KnexTransactionRepository implements ITransactionRepository {
     id,
     userId,
     categoryId,
+    releaseDate,
   }: ICreateTransactionDTO): Promise<void> {
     await knex('transactions').insert({
       id,
@@ -20,6 +24,7 @@ export class KnexTransactionRepository implements ITransactionRepository {
       amount,
       user_id: userId,
       category_id: categoryId,
+      release_date: releaseDate,
     })
   }
 
@@ -55,14 +60,17 @@ export class KnexTransactionRepository implements ITransactionRepository {
     return summaryTransaction
   }
 
-  async summaryTransactionTypeCategory(
-    userId: string,
-  ): Promise<IOutputSummaryTypeCategoryDTO[]> {
+  async summaryTransactionTypeCategory({
+    userId,
+    startDate,
+    endDate,
+  }: IInputSummaryTypeCategoryDTO): Promise<IOutputSummaryTypeCategoryDTO[]> {
     const transactionsTypeCategory = await knex
       .select('type', 'amount')
       .from('transactions')
       .innerJoin('category', 'transactions.category_id', 'category.id')
       .where({ user_id: userId })
+      .andWhereBetween('release_date', [startDate, endDate])
 
     return transactionsTypeCategory
   }

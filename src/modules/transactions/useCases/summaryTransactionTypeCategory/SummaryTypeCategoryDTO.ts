@@ -4,6 +4,15 @@ interface IOutputSummaryTypeCategoryDTO {
 }
 interface IOutputSummaryTypeCategoryReduceDTO {
   [key: string]: number
-  // outras propriedades e métodos
 }
-export { IOutputSummaryTypeCategoryDTO, IOutputSummaryTypeCategoryReduceDTO }
+
+interface IInputSummaryTypeCategoryDTO {
+  userId: string
+  startDate: Date
+  endDate: Date
+}
+export {
+  IOutputSummaryTypeCategoryDTO,
+  IOutputSummaryTypeCategoryReduceDTO,
+  IInputSummaryTypeCategoryDTO,
+}

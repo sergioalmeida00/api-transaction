@@ -1,6 +1,9 @@
 import { inject, injectable } from 'tsyringe'
 import { ITransactionRepository } from '../../repositories/ITransactionRepository'
-import { IOutputSummaryTypeCategoryReduceDTO } from './SummaryTypeCategoryDTO'
+import {
+  IInputSummaryTypeCategoryDTO,
+  IOutputSummaryTypeCategoryReduceDTO,
+} from './SummaryTypeCategoryDTO'
 
 @injectable()
 export class SummaryTransactionTypeCategoryUseCase {
@@ -9,9 +12,17 @@ export class SummaryTransactionTypeCategoryUseCase {
     private transactionRepository: ITransactionRepository,
   ) {}
 
-  async execute(userId: string): Promise<IOutputSummaryTypeCategoryReduceDTO> {
+  async execute({
+    userId,
+    startDate,
+    endDate,
+  }: IInputSummaryTypeCategoryDTO): Promise<IOutputSummaryTypeCategoryReduceDTO> {
     const summaryTransactionTypeCategory =
-      await this.transactionRepository.summaryTransactionTypeCategory(userId)
+      await this.transactionRepository.summaryTransactionTypeCategory({
+        userId,
+        startDate,
+        endDate,
+      })
 
     const summary = summaryTransactionTypeCategory.reduce(
       (accumulator, summary) => {

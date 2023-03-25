@@ -5,6 +5,7 @@ interface ICreateTransactionDTO {
   userId: string
   type: 'credit' | 'debit'
   categoryId: string
+  releaseDate: Date
 }
 
 export { ICreateTransactionDTO }
