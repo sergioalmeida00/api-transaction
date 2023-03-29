@@ -8,7 +8,10 @@ import {
   IInputSummaryTypeCategoryDTO,
   IOutputSummaryTypeCategoryDTO,
 } from '../../../useCases/summaryTransactionTypeCategory/SummaryTypeCategoryDTO'
-import { IInputTransactionByIdDTO } from '../../../useCases/transactionById/TransactionByIdDTO'
+import {
+  IInputTransactionByIdDTO,
+  IOutputTransactionByIdDTO,
+} from '../../../useCases/transactionById/TransactionByIdDTO'
 import { ITransactionRepository } from '../../ITransactionRepository'
 
 export class KnexTransactionRepository implements ITransactionRepository {
@@ -42,14 +45,13 @@ export class KnexTransactionRepository implements ITransactionRepository {
   async findByIdTransaction({
     id,
     userId,
-  }: IInputTransactionByIdDTO): Promise<ICreateTransactionDTO> {
+  }: IInputTransactionByIdDTO): Promise<IOutputTransactionByIdDTO> {
     const transaction = await knex('transactions')
       .where({
         user_id: userId,
         id,
       })
       .first()
-
     return transaction
   }
 

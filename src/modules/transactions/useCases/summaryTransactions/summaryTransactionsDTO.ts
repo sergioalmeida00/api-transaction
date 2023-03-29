@@ -1,9 +1,9 @@
 interface ISummaryTransactionsDTO {
-  totalIncome: string
-  totalExpense: string
-  totalBalance: string
-  weekSummary: string
-  daySummary: string
+  totalIncome: number
+  totalExpense: number
+  totalBalance: number
+  weekSummary: number
+  daySummary: number
 }
 
 interface IOutputSummaryRepository {

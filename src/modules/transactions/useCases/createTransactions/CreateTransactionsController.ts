@@ -4,7 +4,7 @@ import { z } from 'zod'
 import { CreateTransactionsUseCase } from './CreateTransactionsUseCase'
 
 export class CreateTransactionsController {
-  async handle(request: Request, response: Response) {
+  async handle(request: Request, response: Response): Promise<Response> {
     const { id: userId } = request.user
     const createTransactionsSchema = z.object({
       title: z.string(),

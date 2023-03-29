@@ -4,7 +4,7 @@ import { z } from 'zod'
 import { CreateCategoryUseCase } from './CreateCategoryUseCase'
 
 export class CreateCategoryController {
-  async handle(request: Request, response: Response) {
+  async handle(request: Request, response: Response): Promise<Response> {
     const categorySchema = z.object({
       description: z.string().min(3),
       type: z.enum([

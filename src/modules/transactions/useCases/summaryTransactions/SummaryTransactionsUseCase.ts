@@ -1,6 +1,7 @@
 import { inject, injectable } from 'tsyringe'
 import { getTotalWeeksInMonth } from '../../../../utils/getTotalWeeksInMonth'
 import { ITransactionRepository } from '../../repositories/ITransactionRepository'
+import { ISummaryTransactionsDTO } from './summaryTransactionsDTO'
 
 @injectable()
 export class SummaryTransactionsUseCase {
@@ -9,7 +10,7 @@ export class SummaryTransactionsUseCase {
     private transactionRepository: ITransactionRepository,
   ) {}
 
-  async execute(userId: string) {
+  async execute(userId: string): Promise<ISummaryTransactionsDTO> {
     const { weeksInMonth, startDateMont, endDateMontFormat } =
       getTotalWeeksInMonth()
 

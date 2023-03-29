@@ -4,7 +4,7 @@ import { z } from 'zod'
 import { AuthenticateUserUseCase } from './AuthenticateUserUseCase'
 
 export class AuthenticateUserController {
-  async handle(request: Request, response: Response) {
+  async handle(request: Request, response: Response): Promise<Response> {
     const authenticateUserSchema = z.object({
       login: z.string(),
       password: z.string().min(6),

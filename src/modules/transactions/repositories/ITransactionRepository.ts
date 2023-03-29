@@ -7,7 +7,10 @@ import {
   IInputSummaryTypeCategoryDTO,
   IOutputSummaryTypeCategoryDTO,
 } from '../useCases/summaryTransactionTypeCategory/SummaryTypeCategoryDTO'
-import { IInputTransactionByIdDTO } from '../useCases/transactionById/TransactionByIdDTO'
+import {
+  IInputTransactionByIdDTO,
+  IOutputTransactionByIdDTO,
+} from '../useCases/transactionById/TransactionByIdDTO'
 
 interface ITransactionRepository {
   create(data: ICreateTransactionDTO): Promise<void>
@@ -17,7 +20,7 @@ interface ITransactionRepository {
   findByIdTransaction({
     id,
     userId,
-  }: IInputTransactionByIdDTO): Promise<ICreateTransactionDTO>
+  }: IInputTransactionByIdDTO): Promise<IOutputTransactionByIdDTO>
 
   summaryTransaction({
     userId,

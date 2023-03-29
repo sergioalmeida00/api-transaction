@@ -11,6 +11,7 @@ interface IInputSummaryTypeCategoryDTO {
   startDate: Date
   endDate: Date
 }
+
 export {
   IOutputSummaryTypeCategoryDTO,
   IOutputSummaryTypeCategoryReduceDTO,

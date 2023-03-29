@@ -9,7 +9,7 @@ export class CreateCategoryUseCase {
     private categoryRepository: ICategoryRepository,
   ) {}
 
-  async execute({ description, type }: IInputCategory) {
+  async execute({ description, type }: IInputCategory): Promise<void> {
     await this.categoryRepository.create({ description, type })
   }
 }

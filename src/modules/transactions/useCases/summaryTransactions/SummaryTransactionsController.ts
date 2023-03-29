@@ -3,7 +3,7 @@ import { container } from 'tsyringe'
 import { SummaryTransactionsUseCase } from './SummaryTransactionsUseCase'
 
 export class SummaryTransactionsController {
-  async handle(request: Request, response: Response) {
+  async handle(request: Request, response: Response): Promise<Response> {
     const { id: userId } = request.user
 
     const summaryUseCase = container.resolve(SummaryTransactionsUseCase)
