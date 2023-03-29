@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import { verify } from 'jsonwebtoken'
-import { KnexUserRepository } from '../modules/users/userCase/repositories/implementations/knex/KnexUserRepository'
+import { KnexUserRepository } from '../../../../modules/users/userCase/repositories/implementations/knex/KnexUserRepository'
 
 interface IPayloadDTO {
   sub: string

@@ -7,7 +7,7 @@
     "node": ">=18"
   },
   "scripts": {
-    "dev": "tsx watch src/server.ts",
+    "dev": "tsx watch src/shared/infra/server.ts",
     "knex": "node --no-warnings --loader tsx ./node_modules/.bin/knex",
     "build": "tsup src",
     "test": "vitest"

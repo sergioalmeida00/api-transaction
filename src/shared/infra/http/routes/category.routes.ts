@@ -1,6 +1,6 @@
 import { Router } from 'express'
+import { CreateCategoryController } from '../../../../modules/category/useCases/createCategory/CreateCategoryController'
 import { ensureAuthentication } from '../middleware/ensureAuthentication'
-import { CreateCategoryController } from '../modules/category/useCases/createCategory/CreateCategoryController'
 
 const categoryRouter = Router()
 const createCategoryController = new CreateCategoryController()
