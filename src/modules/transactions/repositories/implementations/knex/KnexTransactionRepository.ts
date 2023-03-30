@@ -60,8 +60,10 @@ export class KnexTransactionRepository implements ITransactionRepository {
     startDateMont,
     endDateMontFormat,
   }: IInputSummaryTransactionsDTO): Promise<IOutputSummaryRepository[]> {
-    const summaryTransaction = await knex('transactions')
-      .select('amount')
+    const summaryTransaction = await knex
+      .select('amount', 'type')
+      .from('transactions')
+      .innerJoin('category', 'transactions.category_id', 'category.id')
       .where({ user_id: userId })
       .andWhereBetween('release_date', [startDateMont, endDateMontFormat])
 

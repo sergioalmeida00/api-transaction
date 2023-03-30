@@ -51,6 +51,26 @@ export class SummaryTransactionsUseCase {
       },
     )
 
-    return summaryBalance
+    const calculateReserveEmergency = summary.reduce(
+      ({ emergencyReserve, invested, total }, operation) => {
+        if (operation.amount < 0 && operation.type !== 'investment') {
+          emergencyReserve += Math.abs(
+            Number(operation.amount) *
+              Number(process.env.QUANTITY_OF_MONTH_EMERGENCY),
+          )
+        } else if (operation.type === 'investment') {
+          invested += Math.abs(Number(operation.amount))
+        }
+        total = emergencyReserve - invested
+        return { emergencyReserve, invested, total }
+      },
+      {
+        emergencyReserve: 0,
+        invested: 0,
+        total: 0,
+      },
+    )
+
+    return Object.assign(summaryBalance, calculateReserveEmergency)
   }
 }

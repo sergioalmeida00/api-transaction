@@ -8,6 +8,7 @@ interface ISummaryTransactionsDTO {
 
 interface IOutputSummaryRepository {
   amount: number
+  type: string
 }
 
 interface IInputSummaryTransactionsDTO {
