@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
-import { getCookies } from '../utils/cookies'
+import { getCookies } from '../../../../utils/cookies'
 
 export function middlewareCookies(
   request: Request,
