@@ -34,7 +34,10 @@ export class KnexTransactionRepository implements ITransactionRepository {
     })
   }
 
-  async findAllTransactions(): Promise<ICreateTransactionDTO[]> {
+  async findAllTransactions(
+    startDateMont: string,
+    endDateMontFormat: string,
+  ): Promise<ICreateTransactionDTO[]> {
     const transactions = await knex('transactions')
       .join('category', 'transactions.category_id', 'category.id')
       .select([
@@ -46,7 +49,11 @@ export class KnexTransactionRepository implements ITransactionRepository {
         'transactions.category_id',
         'category.description',
       ])
-      .orderBy('amount', 'desc')
+      .whereBetween('transactions.release_date', [
+        startDateMont,
+        endDateMontFormat,
+      ])
+      .orderBy('release_date', 'desc')
 
     return transactions
   }

@@ -15,7 +15,10 @@ import {
 interface ITransactionRepository {
   create(data: ICreateTransactionDTO): Promise<void>
 
-  findAllTransactions(): Promise<ICreateTransactionDTO[]>
+  findAllTransactions(
+    startDateMont: string,
+    endDateMontFormat: string,
+  ): Promise<ICreateTransactionDTO[]>
 
   findByIdTransaction({
     id,
