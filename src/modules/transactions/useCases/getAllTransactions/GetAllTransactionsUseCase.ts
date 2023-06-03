@@ -1,6 +1,7 @@
 import { inject, injectable } from 'tsyringe'
 import { ITransactionRepository } from '../../repositories/ITransactionRepository'
 import { getTotalWeeksInMonth } from '../../../../utils/getTotalWeeksInMonth'
+import { GetTransactionsDTO } from '../DTO/TransactinonsDTO'
 
 @injectable()
 export class GetAllTransactionsUseCase {
@@ -9,11 +10,17 @@ export class GetAllTransactionsUseCase {
     private transactionsRepository: ITransactionRepository,
   ) {}
 
-  async execute() {
+  async execute({ userId, startDate, endDate }: GetTransactionsDTO) {
     const { startDateMont, endDateMontFormat } = getTotalWeeksInMonth()
+
+    const startDateToSend = startDate || startDateMont
+    const endDateToSend = endDate || endDateMontFormat
+
+    console.log(startDateToSend, endDateToSend)
     const transactions = await this.transactionsRepository.findAllTransactions(
-      startDateMont,
-      endDateMontFormat,
+      startDateToSend,
+      endDateToSend,
+      userId,
     )
 
     return transactions

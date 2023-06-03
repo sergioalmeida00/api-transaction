@@ -37,6 +37,7 @@ export class KnexTransactionRepository implements ITransactionRepository {
   async findAllTransactions(
     startDateMont: string,
     endDateMontFormat: string,
+    userId: string,
   ): Promise<ICreateTransactionDTO[]> {
     const transactions = await knex('transactions')
       .join('category', 'transactions.category_id', 'category.id')
@@ -53,8 +54,8 @@ export class KnexTransactionRepository implements ITransactionRepository {
         startDateMont,
         endDateMontFormat,
       ])
+      .andWhere({ user_id: userId })
       .orderBy('release_date', 'desc')
-
     return transactions
   }
 
@@ -68,6 +69,7 @@ export class KnexTransactionRepository implements ITransactionRepository {
         id,
       })
       .first()
+
     return transaction
   }
 

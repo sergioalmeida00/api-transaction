@@ -18,6 +18,7 @@ interface ITransactionRepository {
   findAllTransactions(
     startDateMont: string,
     endDateMontFormat: string,
+    userId: string,
   ): Promise<ICreateTransactionDTO[]>
 
   findByIdTransaction({

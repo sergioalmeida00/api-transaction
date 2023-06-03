@@ -5,8 +5,15 @@ import { GetAllTransactionsUseCase } from './GetAllTransactionsUseCase'
 
 export class GetAllTransactionsController {
   async handle(request: Request, response: Response) {
+    const { id: userId } = request.user
+    const { startDate, endDate } = request.query
+
     const getTransactionsUseCase = container.resolve(GetAllTransactionsUseCase)
-    const transactions = await getTransactionsUseCase.execute()
+    const transactions = await getTransactionsUseCase.execute({
+      userId,
+      startDate: startDate ? String(startDate) : undefined,
+      endDate: endDate ? String(endDate) : undefined,
+    })
 
     const transactionsMapDTO = TransactionsMap.toDTO(transactions)
     return response.status(200).json({ transactionsMapDTO })
