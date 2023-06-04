@@ -4,7 +4,7 @@ import { TransactionsMap } from '../../mappers/TransactionsMap'
 import { GetAllTransactionsUseCase } from './GetAllTransactionsUseCase'
 
 export class GetAllTransactionsController {
-  async handle(request: Request, response: Response) {
+  async handle(request: Request, response: Response): Promise<Response> {
     const { id: userId } = request.user
     const { startDate, endDate } = request.query
 

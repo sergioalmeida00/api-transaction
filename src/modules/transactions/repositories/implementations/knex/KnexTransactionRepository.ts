@@ -1,5 +1,6 @@
 import { knex } from '../../../../../database'
 import { ICreateTransactionDTO } from '../../../useCases/createTransactions/CreateTransactionsDTO'
+import { TransactionsDTO } from '../../../useCases/DTO/TransactinonsDTO'
 import {
   IInputSummaryTransactionsDTO,
   IOutputSummaryRepository,
@@ -38,7 +39,7 @@ export class KnexTransactionRepository implements ITransactionRepository {
     startDateMont: string,
     endDateMontFormat: string,
     userId: string,
-  ): Promise<ICreateTransactionDTO[]> {
+  ): Promise<TransactionsDTO[]> {
     const transactions = await knex('transactions')
       .join('category', 'transactions.category_id', 'category.id')
       .select([

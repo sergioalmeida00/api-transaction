@@ -1,4 +1,5 @@
 import { ICreateTransactionDTO } from '../useCases/createTransactions/CreateTransactionsDTO'
+import { TransactionsDTO } from '../useCases/DTO/TransactinonsDTO'
 import {
   IInputSummaryTransactionsDTO,
   IOutputSummaryRepository,
@@ -19,7 +20,7 @@ interface ITransactionRepository {
     startDateMont: string,
     endDateMontFormat: string,
     userId: string,
-  ): Promise<ICreateTransactionDTO[]>
+  ): Promise<TransactionsDTO[]>
 
   findByIdTransaction({
     id,
