@@ -1,4 +1,5 @@
-import { inject, injectable } from 'tsyringe'
+import { injectable, inject } from 'tsyringe'
+
 import { getTotalWeeksInMonth } from '../../../../utils/getTotalWeeksInMonth'
 import { ITransactionRepository } from '../../repositories/ITransactionRepository'
 import { ISummaryTransactionsDTO } from './summaryTransactionsDTO'

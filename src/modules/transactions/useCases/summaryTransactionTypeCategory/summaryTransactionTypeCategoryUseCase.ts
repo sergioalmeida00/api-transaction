@@ -1,9 +1,8 @@
 import { inject, injectable } from 'tsyringe'
 import { ITransactionRepository } from '../../repositories/ITransactionRepository'
-import {
-  IInputSummaryTypeCategoryDTO,
-  IOutputSummaryTypeCategoryReduceDTO,
-} from './SummaryTypeCategoryDTO'
+import { IOutputSummaryTypeCategoryReduceDTO } from './SummaryTypeCategoryDTO'
+import { GetTransactionsDTO } from '../DTO/TransactinonsDTO'
+import { getTotalWeeksInMonth } from '../../../../utils/getTotalWeeksInMonth'
 
 @injectable()
 export class SummaryTransactionTypeCategoryUseCase {
@@ -16,12 +15,17 @@ export class SummaryTransactionTypeCategoryUseCase {
     userId,
     startDate,
     endDate,
-  }: IInputSummaryTypeCategoryDTO): Promise<IOutputSummaryTypeCategoryReduceDTO> {
+  }: GetTransactionsDTO): Promise<IOutputSummaryTypeCategoryReduceDTO> {
+    const { startDateMont, endDateMontFormat } = getTotalWeeksInMonth()
+
+    const startDateToSend = startDate || startDateMont
+    const endDateToSend = endDate || endDateMontFormat
+
     const summaryTransactionTypeCategory =
       await this.transactionRepository.summaryTransactionTypeCategory({
         userId,
-        startDate,
-        endDate,
+        startDate: startDateToSend,
+        endDate: endDateToSend,
       })
 
     const summary = summaryTransactionTypeCategory.reduce(

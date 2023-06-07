@@ -1,5 +1,8 @@
 import { ICreateTransactionDTO } from '../useCases/createTransactions/CreateTransactionsDTO'
-import { TransactionsDTO } from '../useCases/DTO/TransactinonsDTO'
+import {
+  GetTransactionsDTO,
+  TransactionsDTO,
+} from '../useCases/DTO/TransactinonsDTO'
 import {
   IInputSummaryTransactionsDTO,
   IOutputSummaryRepository,
@@ -37,7 +40,7 @@ interface ITransactionRepository {
     userId,
     startDate,
     endDate,
-  }: IInputSummaryTypeCategoryDTO): Promise<IOutputSummaryTypeCategoryDTO[]>
+  }: GetTransactionsDTO): Promise<IOutputSummaryTypeCategoryDTO[]>
 }
 
 export { ITransactionRepository }

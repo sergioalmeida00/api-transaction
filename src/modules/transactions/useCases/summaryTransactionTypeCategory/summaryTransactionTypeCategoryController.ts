@@ -7,8 +7,8 @@ export class SummaryTransactionTypeCategoryController {
   async handle(request: Request, response: Response): Promise<Response> {
     const { id: userId } = request.user
     const queryDateSchema = z.object({
-      startDate: z.coerce.date(),
-      endDate: z.coerce.date(),
+      startDate: z.coerce.date().optional(),
+      endDate: z.coerce.date().optional(),
     })
 
     const { startDate, endDate } = queryDateSchema.parse(request.query)
@@ -19,8 +19,8 @@ export class SummaryTransactionTypeCategoryController {
     const summaryTypeCategory =
       await summaryTransactionTypeCategoryUseCase.execute({
         userId,
-        startDate,
-        endDate,
+        startDate: startDate ? String(startDate) : undefined,
+        endDate: endDate ? String(endDate) : undefined,
       })
 
     return response.status(200).json({ summaryTypeCategory })
