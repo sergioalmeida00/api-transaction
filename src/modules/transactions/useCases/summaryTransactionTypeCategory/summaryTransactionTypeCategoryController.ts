@@ -1,17 +1,12 @@
 import { Request, Response } from 'express'
 import { container } from 'tsyringe'
-import { z } from 'zod'
 import { SummaryTransactionTypeCategoryUseCase } from './summaryTransactionTypeCategoryUseCase'
 
 export class SummaryTransactionTypeCategoryController {
   async handle(request: Request, response: Response): Promise<Response> {
     const { id: userId } = request.user
-    const queryDateSchema = z.object({
-      startDate: z.coerce.date().optional(),
-      endDate: z.coerce.date().optional(),
-    })
 
-    const { startDate, endDate } = queryDateSchema.parse(request.query)
+    const { startDate, endDate } = request.query
 
     const summaryTransactionTypeCategoryUseCase = container.resolve(
       SummaryTransactionTypeCategoryUseCase,
